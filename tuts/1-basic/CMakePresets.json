@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "my-vcpkg",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/ninja"
+    }
+  ]
+}

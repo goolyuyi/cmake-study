@@ -15,6 +15,9 @@ find_package(libuv CONFIG REQUIRED)
 add_executable(hello_p1 ${SOURCES})
 
 #set(CMAKE_CXX_STANDARD 23)
+
+# see CMAKE_CXX_KNOWN_FEATURES
+# better use, will report error if hasn't such feature
 target_compile_features(hello_p1 PRIVATE cxx_std_23)
 
 target_link_libraries(hello_p1 PRIVATE unofficial::sqlite3::sqlite3)
@@ -23,10 +26,23 @@ target_link_libraries(hello_p1 PRIVATE Boost::filesystem)
 
 message("BUILDSYSTEM_TARGETS:${BUILDSYSTEM_TARGETS}")
 message("CMAKE_MODULE_PATH:${CMAKE_MODULE_PATH}")
-message("CMAKE_ROOT:${${CMAKE_ROOT}}")
+message("CMAKE_ROOT:${CMAKE_ROOT}")
 
-# === play with cache
-set(YI_TEST "yyy" CACHE PATH "" FORCE)
+message("CMAKE_BINARY_DIR:${CMAKE_BINARY_DIR}")
+message("CMAKE_SOURCE_DIR:${CMAKE_SOURCE_DIR}")
+
+message("PROJECT_NAME:${PROJECT_NAME}")
+
+message("CMAKE_CXX_COMPILER:${CMAKE_CXX_COMPILER}")
+
+# === play with cache & properties
+set(YI_TEST "good" CACHE STRING good FORCE)
+set_property(CACHE YI_TEST PROPERTY STRINGS good bad insane)
+#set_directory_properties()
+#set_target_properties()
+#set_source_files_properties()
+#set_tests_properties()
+
 option(YI_OPT "use the yi-opt???")
 
 # === play with list
@@ -54,3 +70,28 @@ else ()
     message(CHECK_PASS "all components found")
 endif ()
 
+# === play function
+function(foo name)
+    # function has it's own scope
+    set(test 123)
+    message("foo:${name},${ARGC},${ARG1}")
+endfunction()
+
+
+macro(bar name)
+    # macro doesn't
+    set(test 123)
+    message("bar:${name},${ARGC},${ARG1}")
+endmacro()
+
+foo("yuyi" ,"pony")
+bar("yuyi" ,"pony")
+
+# === play for
+foreach (t AA BB CC DD)
+    message("${t}")
+endforeach ()
+
+# === call cmake function
+find_file(YI_MAINCPP NAMES main.cpp PATHS ${CMAKE_SOURCE_DIR})
+message("${YI_MAINCPP}")
