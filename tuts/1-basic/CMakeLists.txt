@@ -95,3 +95,4 @@ endforeach ()
 # === call cmake function
 find_file(YI_MAINCPP NAMES main.cpp PATHS ${CMAKE_SOURCE_DIR})
 message("${YI_MAINCPP}")
+
