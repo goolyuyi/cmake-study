@@ -29,12 +29,6 @@ cmake_host_system_information(RESULT host_name QUERY HOSTNAME)
 #see more: OS_NAME, NUMBER_OF_LOGICAL_CORES...
 message("host_name ${host_name}")
 
-#64bit or 32bit?
-message("CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P}")
-
-#cpp compile features
-message("CMAKE_CXX_COMPILE_FEATURES CMAKE_CXX_COMPILE_FEATURES") #a very long list!
-
 #try run
 try_run(run_result compile_result
         ${CMAKE_CURRENT_BINARY_DIR}/test_code_1
@@ -43,3 +37,5 @@ try_run(run_result compile_result
 
 #execute in config time
 execute_process(COMMAND echo "hello world" OUTPUT_VARIABLE output)
+
+message("CMAKE_VS_PLATFORM_TOOLSET: ${CMAKE_VS_PLATFORM_TOOLSET}")

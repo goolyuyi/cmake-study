@@ -4,5 +4,9 @@
 
 #ifndef CMAKEPLAYGROUND_DOG_LIB_H
 #define CMAKEPLAYGROUND_DOG_LIB_H
+
 void dog();
+
+int get_age();
+
 #endif //CMAKEPLAYGROUND_DOG_LIB_H

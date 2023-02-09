@@ -9,6 +9,7 @@ bracket comment
 #run in configure time
 set(FOO "BAR" CACHE STRING "")
 message("FOO: $CACHE{FOO}")
+message("PATH: $ENV{PATH}")
 
 #scope of var
 #NOTE cmake has 2 of scope: function scope & directory scope

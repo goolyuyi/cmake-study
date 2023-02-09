@@ -21,6 +21,12 @@ add_subdirectory(2-cmake-system)
 message("=============================3-project-target==================================")
 add_subdirectory(3-project-target)
 
+message("=============================4-compiler-config==================================")
+add_subdirectory(4-compiler-config)
 #NOTE: the subd has scopped itself!
 # you can't see any thing in here
 message("3_project_target_sources ${3_project_target_sources}")
+
+
+message("=============================x-sanitizer==================================")
+add_subdirectory(x-sanitizer)

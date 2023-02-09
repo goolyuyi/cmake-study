@@ -56,9 +56,19 @@ the application
 `CXX_STANDARD`
 
 ## project
+### property propagate 
+  propagate properties from source target to dest target
+
+  `set_property(TARGET ${dest} PROPERTY ${prop} ${val})`
+
+### target:
+a compiler's target or some cmake logical target
+#### ALL target
+#### clean target
+
 
 * project:
-* target:
+
 * property:
 * config:
 * cmake var:
