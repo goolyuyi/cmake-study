@@ -68,3 +68,6 @@ message(VERBOSE "VERBOSE")
 message(DEBUG "DEBUG")
 message(TRACE "TRACE")
 
+#same as var in cmake
+option(MY_OPT_1 "help text")
+
