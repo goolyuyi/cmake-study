@@ -30,5 +30,8 @@ add_subdirectory(4-compiler-config)
 message("=============================5-test==================================")
 add_subdirectory(5-test)
 
+message("=============================6-code-tool==================================")
+add_subdirectory(6-code-tool)
+
 message("=============================x-sanitizer==================================")
 add_subdirectory(x-sanitizer)
