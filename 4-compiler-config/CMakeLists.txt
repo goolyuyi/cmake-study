@@ -1,5 +1,17 @@
 include(../yi-cmake-utils/IO.cmake)
 
+
+#=======================================
+#CONCEPT: use these func to set or tweak the target
+#target_compile_definitions()
+#target_compile_options()
+#target_include_directories()
+#target_link_directories()
+#target_link_options()
+#target_precompile_headers()
+#target_sources()
+
+
 add_executable(4_compiler_config hello.cpp)
 
 # * difinitions
@@ -80,3 +92,18 @@ add_library(4_dog_lib_shared SHARED ../3-project-target/dog-lib.cpp)
 #NOTE: you should toggle on PIC if a static lib rely on a shared lib
 #set_target_properties(dependency_target PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
+
+#printTargetProps(
+#3_project_target
+#COMPILE_DEFINITIONS
+#COMPILE_FEATURES
+#COMPILE_OPTIONS
+#INCLUDE_DIRECTORIES
+#LINK_DEPENDS
+#LINK_DIRECTORIES
+#LINK_LIBRARIES
+#LINK_OPTIONS
+#POSITION_INDEPENDENT_CODE
+#PRECOMPILE_HEADERS
+#SOURCES
+#)

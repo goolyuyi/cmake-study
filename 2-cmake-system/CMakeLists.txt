@@ -56,8 +56,8 @@ printVars(
 )
 
 #=======================================
-#system info
 message("\n\n------system info------")
+
 cmake_host_system_information(RESULT host_name QUERY HOSTNAME)
 message("host_name ${host_name}")
 #see more: OS_NAME, NUMBER_OF_LOGICAL_CORES...
