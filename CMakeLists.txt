@@ -28,7 +28,10 @@ message("=============================4-compiler-config=========================
 add_subdirectory(4-compiler-config)
 
 message("=============================5-test==================================")
-add_subdirectory(5-test)
+add_subdirectory(5-find)
 
 message("=============================6-code-tool==================================")
 add_subdirectory(6-code-tool)
+
+message("=============================7-package==================================")
+add_subdirectory(7-package)

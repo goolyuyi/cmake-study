@@ -1,13 +1,17 @@
 include(../yi-cmake-utils/IO.cmake)
 
-#project
+#=======================================
+#project Vars
 message("------project vars------")
-printVars(PROJECT_SOURCE_DIR
+printVars(
+        PROJECT_SOURCE_DIR #last place call project()
         PROJECT_BINARY_DIR
         PROJECT_NAME
-        CMakePlayground_VERSION
         PROJECT_VERSION
-        )
+        #all these will be set: <project-name>_SOURCE_DIR, <project-name>_BINARY_DIR, etc...
+        CMakePlayground_SOIURCE_DIR
+)
+
 
 # * Variable changes are isolated to the nested scope.
 # * You're free to configure the nested artifacts however you like.
