@@ -30,6 +30,7 @@ message("PATH: $ENV{PATH}")
 
 #we can list all the variables and caches
 printDirProps(
+        ./
         CACHE_VARIABLES
         VARIABLES
 )

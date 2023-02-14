@@ -21,6 +21,7 @@ printVars(CMAKE_PREFIX_PATH #search config path
 
 find_package(OpenExr REQUIRED)
 printDirProps(
+        ./
         BUILDSYSTEM_TARGETS
         IMPORTED_TARGETS
 )
@@ -71,8 +72,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest yaml-cpp)
 
 include(CMakePrintHelpers)
-printProps(yaml-cpp::yaml-cpp TYPE SOURCE_DIR)
-printProps(GTest::gtest_main TYPE SOURCE_DIR)
+printTargetProps(yaml-cpp::yaml-cpp TYPE SOURCE_DIR)
+printTargetProps(GTest::gtest_main TYPE SOURCE_DIR)
 
 
 #
@@ -94,3 +95,6 @@ printProps(GTest::gtest_main TYPE SOURCE_DIR)
 #        )
 #printProps(GTest::gtest_main IMPORTED)
 #
+
+
+

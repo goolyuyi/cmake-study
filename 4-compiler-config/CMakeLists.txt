@@ -55,7 +55,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 #    target_compile_options(4_compiler_config PRIVATE -fsanitize=address)
 endif ()
 
-printProps(4_compiler_config COMPILE_OPTIONS COMPILE_FLAGS COMPILE_DEFINITIONS)
+printTargetProps(4_compiler_config COMPILE_OPTIONS COMPILE_FLAGS COMPILE_DEFINITIONS)
 
 # * precompile headers
 target_precompile_headers(4_compiler_config PRIVATE <iostream>)
