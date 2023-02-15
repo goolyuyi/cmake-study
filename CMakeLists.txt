@@ -26,7 +26,6 @@ message("Hello Yijiang")
 #endif()
 
 
-
 #cpp standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -50,8 +49,8 @@ add_subdirectory(4-compiler-config)
 message("=============================5-find-package==================================")
 add_subdirectory(5-find-package)
 
-message("=============================6-install==================================")
-add_subdirectory(6-install)
+message("=============================6-install-test-export==================================")
+add_subdirectory(6-install-test-export)
 
 #message("=============================6-code-tool==================================")
 #add_subdirectory(6-code-tool)

@@ -20,9 +20,12 @@ install cmd will gen some directives in `cmake_install.cmake`
 # CMAKE_INSTALL_PREFIX where to install (is the root of install tree)
 # 如果不指定,cmake会自动选择(比如linux会在/usr/local）
 add_library(6_yi_dog_lib SHARED ../3-project-target/dog-lib/dog-lib.cpp)
+set(Export_Name 6Chapter)
 
 target_include_directories(6_yi_dog_lib PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../3-project-target/dog-lib/>
+        #为了消除target export时的相对路径警告
+
         $<INSTALL_INTERFACE:include>
         )
 
@@ -32,7 +35,7 @@ target_link_libraries(6_welcome 6_yi_dog_lib)
 set(installable_libs 6_yi_dog_lib)
 install(TARGETS 6_welcome DESTINATION bin)
 install(TARGETS ${installable_libs} DESTINATION lib
-        EXPORT Chapter6Targets #EXPORT: will used in cmake target file gen&install
+        EXPORT ${Export_Name} #EXPORT: will used in cmake target file gen&install
         )
 
 install(FILES data.file DESTINATION data)
@@ -50,37 +53,41 @@ target_compile_options(6_welcome PRIVATE
         "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
         )
 
-install(EXPORT Chapter6Targets
-        FILE Chapter6Targets.cmake
+install(EXPORT ${Export_Name}
+        FILE ${Export_Name}Targets.cmake
         DESTINATION cmake/
         )
 
+#生成config
 include(CMakePackageConfigHelpers)
 # generate the config file that includes the exports
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}/Chapter6Config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${Export_Name}Config.cmake"
         INSTALL_DESTINATION "cmake/"
         NO_SET_AND_CHECK_MACRO
         NO_CHECK_REQUIRED_COMPONENTS_MACRO
         )
 
 write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/Chapter6ConfigVersion.cmake"
-        VERSION "${Tutorial_VERSION_MAJOR}.${Tutorial_VERSION_MINOR}"
+        "${CMAKE_CURRENT_BINARY_DIR}/${Export_Name}ConfigVersion.cmake"
+        VERSION "1.0"
         COMPATIBILITY AnyNewerVersion
 )
 
+#install config
 install(FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/Chapter6Config.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/Chapter6ConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${Export_Name}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${Export_Name}ConfigVersion.cmake
         DESTINATION cmake/
         )
 
-#If we want our project to also be used from a build directory we only have to add the following to the bottom of the top level CMakeLists.txt:
-export(EXPORT Chapter6Targets
-        FILE "${CMAKE_CURRENT_BINARY_DIR}/Chapter6Targets.cmake"
+#If we want our project to also be used from a build directory
+export(EXPORT ${Export_Name}
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/${Export_Name}Targets.cmake"
         )
 
+
+#===============================================
 #ctest -N(must in the buildtree)
 #ctest -C Debug -VV
 
