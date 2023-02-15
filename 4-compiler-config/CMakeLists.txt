@@ -11,9 +11,9 @@ include(../yi-cmake-utils/IO.cmake)
 #target_precompile_headers()
 #target_sources()
 
-
 add_executable(4_compiler_config hello.cpp)
 
+#=======================================
 # * difinitions
 target_compile_definitions(
         4_compiler_config PRIVATE
@@ -25,14 +25,13 @@ execute_process(COMMAND git log -1 --pretty=format:%h OUTPUT_VARIABLE SHA)
 target_compile_definitions(4_compiler_config PRIVATE "SHA=${SHA}")
 
 # * include directories
-#used as `#include <calc.h>`
-#NOTE useful for include a library
 target_include_directories(4_compiler_config PRIVATE inc)
 
 # * compiler feature
-#Compiler mode is at least C++ 17
-target_compile_features(4_compiler_config PRIVATE cxx_std_17)
+target_compile_features(4_compiler_config PRIVATE cxx_std_17) # at least C++ 17
 
+#=======================================
+#Check compiler
 #CMAKE_<LANG>_COMPILER_ID
 printVars(CMAKE_CXX_COMPILER_ID
         CMAKE_CXX_COMPILER_VERSION
@@ -44,36 +43,56 @@ printVars(CMAKE_SIZEOF_VOID_P)
 # * toolchain infos
 printVars(CMAKE_GENERATOR)
 
+printVars(CMAKE_BUILD_TYPE)
+
+# * compiler options
+#CMAKE_<LANG>_FLAGS_<CONFIG>
+printVars(
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+)
+#global flags, when you create a target, it will be added to the target
+#but you can override it by target_compile_options()
+
+#=================================
+#EXAMPLE: if msvc
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     printVars(MSVC_VERSION)
 endif ()
 
-printVars(CMAKE_BUILD_TYPE)
-
+#=================================
+#EXAMPLE: build type
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(TARGET 4_compiler_config PRE_BUILD
             COMMAND echo ARGS "check some pre-works for 4_compiler_config...")
 endif ()
 
-# * compiler options
-#CMAKE_<LANG>_FLAGS_<CONFIG>
-#the global compiler option
-printVars(CMAKE_CXX_FLAGS_DEBUG
-        CMAKE_CXX_FLAGS_RELEASE
-        )
+#=================================
+#EXAMPLE: inspect target
+printTargetProps(
+        4_compiler_config
+        COMPILE_DEFINITIONS
+        COMPILE_FEATURES
+        COMPILE_OPTIONS
+        INCLUDE_DIRECTORIES
+        LINK_DEPENDS
+        LINK_DIRECTORIES
+        LINK_LIBRARIES
+        LINK_OPTIONS
+        POSITION_INDEPENDENT_CODE
+        PRECOMPILE_HEADERS
+        SOURCES
+)
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(4_compiler_config PRIVATE -Wall )
-#    target_compile_options(4_compiler_config PRIVATE -fsanitize=address)
-endif ()
-
-printTargetProps(4_compiler_config COMPILE_OPTIONS COMPILE_FLAGS COMPILE_DEFINITIONS)
-
-# * precompile headers
+#=======================================
+# CONCEPT
+# precompile headers
 target_precompile_headers(4_compiler_config PRIVATE <iostream>)
 #target_precompile_headers(<target> REUSE_FROM <other_target>)
 
-# * unity build
+#=======================================
+# CONCEPT
+# unity build
 #CMAKE_UNITY_BUILD
 #UNITY_BUILD
 #means:
@@ -81,29 +100,18 @@ target_precompile_headers(4_compiler_config PRIVATE <iostream>)
 #unity build compile as `#include "one.cpp" #include "two.cpp"`
 #so it compile faster in single thread but slower than parallel build
 
+#=======================================
+# ABOUT Clang
 # * misc clang options
 #-save-temps=obj
 #-H
 #-g -DNDEBUG
 
-# * static lib
-add_library(4_dog_lib_static STATIC ../3-project-target/dog-lib.cpp)
-add_library(4_dog_lib_shared SHARED ../3-project-target/dog-lib.cpp)
-#NOTE: you should toggle on PIC if a static lib rely on a shared lib
+#=======================================
+# ABOUT static lib & PIC
+add_library(4_dog_lib_static STATIC ../3-project-target/dog-lib/dog-lib.cpp)
+add_library(4_dog_lib_shared SHARED ../3-project-target/dog-lib/dog-lib.cpp)
+#you should toggle on PIC if a static lib rely on a shared lib
 #set_target_properties(dependency_target PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 
-#printTargetProps(
-#3_project_target
-#COMPILE_DEFINITIONS
-#COMPILE_FEATURES
-#COMPILE_OPTIONS
-#INCLUDE_DIRECTORIES
-#LINK_DEPENDS
-#LINK_DIRECTORIES
-#LINK_LIBRARIES
-#LINK_OPTIONS
-#POSITION_INDEPENDENT_CODE
-#PRECOMPILE_HEADERS
-#SOURCES
-#)

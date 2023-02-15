@@ -18,15 +18,35 @@ printVars(
 # add_library()
 # add_custom_target(): a pure logical target, can run some command in build time
 
-add_executable(3_project_target main.cpp)
-target_sources(3_project_target PRIVATE cat/cat.cpp)
+add_executable(3_main main.cpp)
+target_sources(3_main PRIVATE cat/cat.cpp)
 
-set_target_properties(3_project_target PROPERTIES CXX_STANDARD 20)
-target_link_libraries(3_project_target PUBLIC 3_project_target_dog_lib) #order doesn't matter
+set_target_properties(3_main PROPERTIES CXX_STANDARD 20)
+target_link_libraries(3_main PUBLIC 3_dog_lib) #order doesn't matter
 
-add_library(3_project_target_dog_lib dog-lib.cpp)
+#=======================================
+#add dog lib
+add_library(3_dog_lib dog-lib/dog-lib.cpp)
+target_include_directories(3_dog_lib PUBLIC dog-lib)
 
-add_custom_target(3_project_target_echo_something ALL COMMAND echo "YI_PATH" $ENV{YI_PATH})
+#=======================================
+#CONCEPT:
+#cmake's target's properties propagate/inherent by dependency relationship
+
+target_compile_definitions(3_dog_lib PUBLIC
+        FOO_FLAG)
+
+#so what's the FOO_FLAG in 3_main? it depends on the propagation type(PUBLIC, PRIVATE, INTERFACE):
+#* PUBLIC: 3_dog_lib and 3_main will have FOO_FLAG
+#* PRIVATE: only 3_dog_lib will have FOO_FLAG
+#* INTERFACE: only 3_main will have FOO_FLAG
+
+#=======================================
+#EXAMPLE: so we can make a dumb target, only for propagate some properties to other target!
+add_library(3_dumb_warning_props INTERFACE)
+#NOTE: debug here, the prop INTERFACE_COMPILE_OPTION will be set
+target_link_libraries(3_main PUBLIC 3_dumb_warning_props)
+
 
 #=======================================
 #CONCEPT:
@@ -35,29 +55,8 @@ add_custom_target(3_project_target_echo_something ALL COMMAND echo "YI_PATH" $EN
 #* auto resolve by calling the `target_link_libraries`
 #* manually resolve by calling the `add_dependencies`
 
-add_dependencies(3_project_target 3_project_target_echo_something)
-
-#=======================================
-#CONCEPT:
-#cmake's target's properties propagate/inherent by dependency relationship
-
-target_compile_definitions(3_project_target_dog_lib PUBLIC
-        FOO_FLAG)
-
-#so what's the FOO_FLAG in 3_project_target? it depends on the propagation type(PUBLIC, PRIVATE, INTERFACE):
-#* PUBLIC: 3_project_target_dog_lib and 3_project_target will have FOO_FLAG
-#* PRIVATE: only 3_project_target_dog_lib will have FOO_FLAG
-#* INTERFACE: only 3_project_target will have FOO_FLAG
-
-#=======================================
-#EXAMPLE: so we can make a dumb target, only for propagate some properties to other target!
-add_library(dumb_warning_props INTERFACE)
-target_compile_options(dumb_warning_props INTERFACE
-        /Wall
-        )
-#NOTE: debug here, the prop INTERFACE_COMPILE_OPTION will be set
-target_link_libraries(3_project_target PUBLIC dumb_warning_props)
-
+add_custom_target(3_echo_something ALL COMMAND echo "YI_PATH" $ENV{YI_PATH})
+add_dependencies(3_main 3_echo_something)
 
 #=======================================
 #CONCEPT:
@@ -66,11 +65,12 @@ target_link_libraries(3_project_target PUBLIC dumb_warning_props)
 
 #* clean is a special target
 
+
 #=======================================
 #CONCEPT:
 #different from add_custom_target(), this won't create a logical target(won't show in the target list)
 add_custom_command(
-        TARGET 3_project_target_echo_something
+        TARGET 3_echo_something
         PRE_BUILD #or PRE_LINK, POST_BUILD
         COMMAND echo ARGS "$ENV{PATH}" > "aaa.txt"
         DEPENDS aaa.txt #if aaa.txt is not exist(in the buildtree), this command will be run
@@ -78,15 +78,28 @@ add_custom_command(
 
 #the test of dog-lib
 add_executable(3_test_dog_lib dog-lib/dog-test.cpp)
-target_link_libraries(3_test_dog_lib PUBLIC 3_project_target_dog_lib)
+target_link_libraries(3_test_dog_lib PUBLIC 3_dog_lib)
 
-#if we wanna test dog-lib before build 3_project_target
+#if we wanna test dog-lib before build 3_main
 add_custom_command(
-        TARGET 3_project_target PRE_BUILD
+        TARGET 3_main PRE_BUILD
         COMMAND $<TARGET_FILE:3_test_dog_lib>
-        BYPRODUCTS 3_project_target_dog_lib
+        BYPRODUCTS 3_dog_lib
 )
 
+#=======================================
+#EXAMPLE: inspect some props of target
+printTargetProps(
+        3_main
+        LINK_LIBRARIES
+        SOURCES
+        MANUALLY_ADDED_DEPENDENCIES
+)
+
+printTargetProps(
+        3_dumb_warning_props
+        INTERFACE_COMPILE_OPTIONS
+)
 
 #=======================================
 #CONCEPT:
@@ -117,18 +130,12 @@ add_custom_command(
 #=======================================
 #EXAMPLE: the way we can get the value of generator expression
 #because custom target will run at generator time
-add_custom_target(3_write_some_gen_exp_to_file COMMAND ${CMAKE_COMMAND} -E echo "<TARGET_FILE:3_test_dog_lib> $<TARGET_FILE:3_test_dog_lib>")
+add_custom_target(3_output_gen_exp COMMAND ${CMAKE_COMMAND} -E echo "generator:$<TARGET_FILE:3_test_dog_lib>")
 
-#=======================================
-#EXAMPLE: inspect some props of target
-printTargetProps(
-        3_project_target
-        LINK_LIBRARIES
-        SOURCES
-        MANUALLY_ADDED_DEPENDENCIES
-)
+set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
+set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 
-printTargetProps(
-        dumb_warning_props
-        INTERFACE_COMPILE_OPTIONS
-)
+target_compile_options(3_dumb_warning_props INTERFACE
+        "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
+        "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
+        )
