@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CLionExternalBuildManager">
     <target id="fdffd1ed-58c2-42ad-bd7c-20e24f2d01bf" name="CMake" defaultType="TOOL">
-      <configuration id="61c75b88-d454-477c-9009-7d33b71b2b5b" name="CMake" />
+      <configuration id="61c75b88-d454-477c-9009-7d33b71b2b5b" name="CMake" toolchainName="Default" />
     </target>
   </component>
 </project>

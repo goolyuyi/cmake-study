@@ -135,7 +135,13 @@ add_custom_target(3_output_gen_exp COMMAND ${CMAKE_COMMAND} -E echo "generator:$
 set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
 set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 
+#Consumers of our installed project should not inherit our warning flags.
 target_compile_options(3_dumb_warning_props INTERFACE
         "$<${gcc_like_cxx}:$<BUILD_INTERFACE:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>>"
         "$<${msvc_cxx}:$<BUILD_INTERFACE:-W3>>"
         )
+
+#=======================================
+#ALIAS TARGET
+# https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#alias-targets
+add_library(3_targets::dog_lib ALIAS 3_dog_lib)

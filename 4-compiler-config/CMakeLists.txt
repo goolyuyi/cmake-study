@@ -115,3 +115,26 @@ add_library(4_dog_lib_shared SHARED ../3-project-target/dog-lib/dog-lib.cpp)
 #set_target_properties(dependency_target PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 
+#=======================================
+# Use CheckCXXSourceCompiles
+# to compile a snippet of code to check if it works
+include(CheckCXXSourceCompiles)
+check_cxx_source_compiles("
+  #include <cmath>
+  int main() {
+    std::log(1.0);
+    return 0;
+  }
+" HAVE_LOG)
+check_cxx_source_compiles("
+  #include <cmath>
+  int main() {
+    std::exp(1.0);
+    return 0;
+  }
+" HAVE_EXP)
+
+printVars(
+        HAVE_LOG
+        HAVE_EXP
+)
