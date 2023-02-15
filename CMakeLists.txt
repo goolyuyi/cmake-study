@@ -7,6 +7,26 @@ project(CMakePlayground
         )
 message("Hello Yijiang")
 
+#set(CMAKE_DEBUG_POSTFIX d)
+
+# control where the static and shared libraries are built so that on windows
+# we don't need to tinker with the path to run the executable
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+#==============================================================
+#CONCEPT: RPath
+#
+#https://dev.my-gate.net/2021/08/04/understanding-rpath-with-cmake/
+#if(APPLE)
+#    set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+#elseif(UNIX)
+#    set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+#endif()
+
+
+
 #cpp standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -27,11 +47,14 @@ message("3_project_target_sources ${3_project_target_sources}")
 message("=============================4-compiler-config==================================")
 add_subdirectory(4-compiler-config)
 
-message("=============================5-test==================================")
-add_subdirectory(5-find)
+message("=============================5-find-package==================================")
+add_subdirectory(5-find-package)
 
-message("=============================6-code-tool==================================")
-add_subdirectory(6-code-tool)
+message("=============================6-install==================================")
+add_subdirectory(6-install)
 
-message("=============================7-package==================================")
-add_subdirectory(7-package)
+#message("=============================6-code-tool==================================")
+#add_subdirectory(6-code-tool)
+
+#message("=============================7-package==================================")
+#add_subdirectory(7-package)
