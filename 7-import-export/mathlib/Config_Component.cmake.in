@@ -1,0 +1,11 @@
+@PACKAGE_INIT@
+
+set(_YiMathLib_Component_supported_components mathlib mathutil)
+
+foreach(_comp ${YiMathLib_Component_FIND_COMPONENTS})
+  if (NOT _comp IN_LIST _YiMathLib_Component_supported_components)
+    set(YiMathLib_Component False)
+    set(YiMathLib_Component_NOT_FOUND_MESSAGE "Unsupported component: ${_comp}")
+  endif()
+  include("${CMAKE_CURRENT_LIST_DIR}/${_comp}Targets.cmake")
+endforeach()

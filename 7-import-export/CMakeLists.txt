@@ -39,7 +39,10 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/fake-install-mathlib/l
 printVars(CMAKE_PREFIX_PATH)
 
 find_package(YiMathLib_Component 0.1 REQUIRED CONFIG COMPONENTS mathlib mathutil)
+#use the component version of config
+
 #find_package(YiMathLib 0.1 REQUIRED CONFIG)
+#use the no component version of config
 
 add_executable(7_test_mathlib test_mathlib.cpp)
 target_link_libraries(7_test_mathlib YiMathLib::mathlib)
