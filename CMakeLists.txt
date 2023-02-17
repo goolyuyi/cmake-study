@@ -50,10 +50,14 @@ message("=============================5-find-package============================
 add_subdirectory(5-find-package)
 
 message("=============================6-install-test-export==================================")
-add_subdirectory(6-install-test-export)
+add_subdirectory(6-install-test-pack)
+
+message("=============================7-import-export==================================")
+add_subdirectory(7-import-export)
 
 #message("=============================6-code-tool==================================")
 #add_subdirectory(6-code-tool)
 
-#message("=============================7-package==================================")
-#add_subdirectory(7-package)
+
+message("=============================8-module-utils==================================")
+add_subdirectory(8-module-utils)
