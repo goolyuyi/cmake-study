@@ -105,7 +105,7 @@ foreach (_variableName ${_variableNames})
     endif ()
 endforeach ()
 
-printTargetProps(OpenEXR::OpenEXRCore IMPORTED)
+printTargetProps(OpenEXR::OpenEXRCore IMPORTED )
 printTargetProps(OpenEXR::OpenEXR IMPORTED)
 
 
