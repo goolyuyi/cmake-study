@@ -1,0 +1,15 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/mathlibTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/mathutilTargets.cmake")
+
+check_required_components(mathlib)
+check_required_components(mathutil)
+
+# The `check_required_components` helper macro ensures that all requested, non-optional components have been found by
+# checking the <Package>_<Component>_FOUND variables for all required components.
+# This macro should be called at the end of the package configuration file even if the package does not have any components.
+# This way, CMake can make sure that the downstream project hasn't specified any non-existent components.
+
+# The `set_and_check()` macro should be used in configuration files instead of the normal set() command for
+# setting directories and file locations. If a referenced file or directory does not exist, the macro will fail.
