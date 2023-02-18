@@ -25,7 +25,6 @@ message("Hello Yijiang")
 #    set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 #endif()
 
-
 #cpp standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -54,10 +53,6 @@ add_subdirectory(6-install-test-pack)
 
 message("=============================7-import-export==================================")
 add_subdirectory(7-import-export)
-
-#message("=============================6-code-tool==================================")
-#add_subdirectory(6-code-tool)
-
 
 message("=============================8-module-utils==================================")
 add_subdirectory(8-module-utils)
