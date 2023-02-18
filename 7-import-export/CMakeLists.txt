@@ -39,7 +39,7 @@ but we need many hardcode and can't use the feature of find_package()
 
 #===============================================================
 #[=[
-we can import from the config file\
+we can import from the config file
 there are two versions of config file, one support component
 #]=]
 
@@ -56,3 +56,9 @@ target_link_libraries(7_test_mathlib YiMathLib::mathlib)
 
 add_executable(7_test_mathutil test_mathutil.cpp)
 target_link_libraries(7_test_mathutil YiMathLib::mathutil)
+
+#===============================================================
+#test it
+enable_testing()
+add_test(NAME 7_test_mathlib COMMAND 7_test_mathlib)
+add_test(NAME 7_test_mathutil COMMAND 7_test_mathutil)
