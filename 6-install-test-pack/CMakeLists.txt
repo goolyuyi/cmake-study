@@ -49,18 +49,47 @@ install(FILES ../3-project-target/dog-lib/dog-lib.h; DESTINATION include)
 # `~/dev/CLionProjects/cmake-study/cmake-build-debug/6-install-test-pack> cmake --build . --install . --prefix "../../6-install-test-pack/fake-install"`
 
 #===============================================
-#ctest -N(must in the buildtree)
-#ctest -C Debug -VV
+#[=[
+`ctest` cmd must in the buildtree
+* ctest -R math # run test name match regex:math
+* ctest -N #list all test
+    * ctest -N -VV
+
+* ctest -C Debug -VV
+
+* ctest -I ,,5,1,2,3,10
+
+* filter params: -R -RE -L -LE -I
+
+* fail param: --rerun-failed --output-on-failure
+
+* useful param: --progress, -j <jobs>, -Q, --schedule-random
+
+* repeat test: --repeat <mode>:<n>, --repeat-until-fail, --timeout <seconds>
+
+* build & test mode:
+ctest --build-and-test <path-to-source> <path-to-build>
+      --build-generator <generator>
+      [<options>...]
+      [--build-options <opts>...]
+      [--test-command <command> [<args>...]]
+#]=]
+
 
 enable_testing()
-add_test(NAME Test1 COMMAND 6_welcome)
-set_tests_properties(Test1
-        PROPERTIES PASS_REGULAR_EXPRESSION "husky"
+add_test(NAME 6_test1 COMMAND 6_welcome)
+set_tests_properties(6_test1
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "husky"
+        LABELS "chapter6"
         )
 
-add_test(NAME Test2 COMMAND echo 666)
-set_tests_properties(Test2
-        PROPERTIES PASS_REGULAR_EXPRESSION "666"
+add_test(NAME 6_test2 COMMAND echo 666)
+
+set_tests_properties(6_test2
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "666"
+        LABELS "chapter6"
         )
 
 #=============================================
