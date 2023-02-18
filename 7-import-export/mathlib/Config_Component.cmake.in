@@ -1,5 +1,8 @@
 @PACKAGE_INIT@
 
+include(CMakeFindDependencyMacro)
+find_dependency(OPENEXR)
+
 set(_YiMathLib_Component_supported_components mathlib mathutil)
 
 foreach(_comp ${YiMathLib_Component_FIND_COMPONENTS})

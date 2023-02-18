@@ -10,5 +10,7 @@ int main(int argc, char *argv[]) {
     cout << "the inverse of sqrt() is " << mathlib::getInvert(std::string("sqrt")) << endl;
     cout << "the delta symbol is " << mathlib::getSymbol(std::string("delta")) << endl;
     cout << "the Pi is:" << Pi << endl;
+
+    mathlib::useOpenEXR();
     return 0;
 }

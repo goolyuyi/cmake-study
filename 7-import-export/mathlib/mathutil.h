@@ -10,5 +10,7 @@
 namespace mathlib {
     std::string getInvert(const std::string &func);
     std::string getSymbol(const std::string &name);
+
+    void useOpenEXR();
 }
 #endif //CMAKEPLAYGROUND_MATHUTIL_H

@@ -1,5 +1,8 @@
 @PACKAGE_INIT@
 
+include(CMakeFindDependencyMacro)
+find_dependency(OPENEXR)
+
 include("${CMAKE_CURRENT_LIST_DIR}/mathlibTargets.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/mathutilTargets.cmake")
 
